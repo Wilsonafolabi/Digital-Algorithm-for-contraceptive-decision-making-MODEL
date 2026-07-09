@@ -1,51 +1,13 @@
-# 💊 DACM AI – Clinical Decision Support System for Contraceptive Care
+# DACM - Digital Algorithm For Contraceptive Decision-Making
+## Quick Start
+1. `cd ai-service` → edit `.env` → `pip install -r requirements.txt` → `uvicorn app.main:app --port 8001 --reload`
+2. `cd go-backend` → `go mod tidy` → `go run cmd/main.go`
+3. Test: `curl -X POST http://localhost:8000/api/v1/advice -H "Content-Type: application/json" -d '{"query":"Is the pill safe?","user_profile":{"age":37,"conditions":[],"current_method":"None","smoking_status":"smoker"}}'`
 
-> A hybrid AI platform delivering personalized, WHO-guideline-backed contraceptive recommendations with behavioral satisfaction prediction and automated high-risk patient triage for Sub-Saharan Africa.
-
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
-[![Go 1.21+](https://img.shields.io/badge/go-1.21+-00ADD8.svg)](https://golang.org/dl/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115.6-009688.svg)](https://fastapi.tiangolo.com/)
-
----
-
-## 🎯 Problem Statement
-
-Contraceptive discontinuation rates exceed 40% in Sub-Saharan Africa due to:
-- Lack of personalized, guideline-aligned counseling
-- Unaddressed behavioral factors (side effects, satisfaction)
-- Limited access to trained providers in rural areas
-- Privacy concerns preventing open consultation
-
-DACM AI addresses this by combining clinical safety rules, regional prevalence data, and behavioral ML to deliver trustworthy, actionable recommendations.
-
----
-
-## ✨ Key Features
-
-### 🩺 Clinical Intelligence
-- **WHO MEC Guideline Engine**: Rule-based safety checks for 12+ clinical parameters (hypertension, migraines with aura, DVT history, breastfeeding, etc.)
-- **RAG-Powered Recommendations**: ChromaDB retrieval of WHO MEC guidelines + Groq LLM synthesis for empathetic, evidence-based advice
-- **Critical Risk Flagging**: Auto-blocks contraindicated methods and routes high-risk cases to counselor dashboard
-
-### 🤖 Behavioral Prediction
-- **LightGBM Satisfaction Model** (0.919 AUC): Predicts user adherence risk based on historical review patterns
-- **Personalized Counseling Prompts**: Recommends "counseling_recommended" when satisfaction probability <50%
-
-### 🌍 Regional Context
-- **WHO Africa DHS Integration**: 1,161 prevalence records across 54 African countries for localized counseling
-- **Dynamic Country Filtering**: Real-time retrieval of method usage statistics by ISO3 country code
-
-### 🔒 Privacy & Compliance
-- **Zero-PII Architecture**: SHA-256 identity hashing ensures patient anonymity in counselor workflows
-- **Masked Contact Handling**: Counselors see `em***@gmail.com`, never raw emails/phones
-- **Audit Logging**: All case flags, appointments, and admin actions timestamped and traceable
-
-### 🩺 Counselor & Admin Portals
-- **Blinded Case Dashboard**: Counselors review flagged cases without accessing patient identity
-- **Telehealth Scheduling**: One-click Google Meet link generation with simulated email/SMS dispatch
-- **System Health Monitoring**: Real-time status checks for Go backend, Python AI, and database connectivity
-
----
-
-## 🏗️ Architecture Overview
+## Provider Setup
+Edit `ai-service/.env`:
+- **Gemini**: `BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai/` | `AI_MODEL=gemini-2.0-flash`
+- **Qwen**: `BASE_URL=https://dashscope.aliyuncs.com/compatible-mode/v1` | `AI_MODEL=qwen-turbo`
+- **Groq**: `BASE_URL=https://api.groq.com/openai/v1` | `AI_MODEL=llama3-8b-8192`
+- **OpenAI/Grok**: Change `BASE_URL` & `AI_MODEL` accordingly.
+No code changes needed. Just restart the Python service.
