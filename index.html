@@ -682,7 +682,7 @@
         } catch(e) {}
         
         try {
-            const res = await fetch('http://localhost:8001/health');
+            const res = await fetch('https://dacm-backend.onrender.com/health');
             if (res.ok) pyStatus = 'up';
         } catch(e) {}
 
