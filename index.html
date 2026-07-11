@@ -509,10 +509,10 @@
 
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
             const data = await res.json();
-            renderResults(data.data || {});
+            renderResults(data);
 
-            const isFlagged = (data.data?.safety?.flagged) || 
-                             (data.data?.behavioral_insight?.interpretation === 'low') ||
+            const isFlagged = (data.safety?.flagged) || 
+                             (data.behavioral_insight?.interpretation === 'low') ||
                              profile.age < 18;
 
             if (isFlagged) {
@@ -521,7 +521,7 @@
                 
                 saveCase({
                     id: hashId,
-                    reason: data.data?.safety?.message || "Low satisfaction risk",
+                    reason: data.safety?.message || "Low satisfaction risk",
                     contact_method: email ? 'email' : 'phone',
                     contact_masked: email ? maskEmail(email) : '***',
                     contact_raw: email,
