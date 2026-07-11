@@ -501,7 +501,7 @@
         const payload = { query: document.getElementById('query').value, user_profile: profile };
 
         try {
-            const res = await fetch('https://dacm-backend.onrender.com/api/v1/advice', {
+            const res = await fetch('https://emeritus-21-dacm-project-service.hf.space/api/v1/advice', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
@@ -677,7 +677,7 @@
         let backendStatus = 'down';
         
         try {
-            const res = await fetch('https://dacm-backend.onrender.com/health');
+            const res = await fetch('https://emeritus-21-dacm-project-service.hf.space/health');
             if (res.ok) backendStatus = 'up';
         } catch(e) {}
 
