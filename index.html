@@ -501,7 +501,7 @@
         const payload = { query: document.getElementById('query').value, user_profile: profile };
 
         try {
-            const res = await fetch('http://localhost:8000/api/v1/advice', {
+            const res = await fetch('https://dacm-backend.onrender.com/api/v1/advice', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(payload)
@@ -534,7 +534,7 @@
 
         } catch (e) {
             console.error(e);
-            alert('⚠️ AI service unavailable. Ensure Go (:8000) and Python (:8001) are running.');
+            alert('⚠️ AI service unavailable. Please try again later.');
         } finally {
             btn.disabled = false;
             btn.innerHTML = '<i class="fas fa-magic"></i> Get AI-Powered Advice';
@@ -674,21 +674,15 @@
 
     async function checkSystemHealth() {
         const div = document.getElementById('health-status');
-        let goStatus = 'down', pyStatus = 'down';
-        
-        try {
-            const res = await fetch('http://localhost:8000/api/v1/health');
-            if (res.ok) goStatus = 'up';
-        } catch(e) {}
+        let backendStatus = 'down';
         
         try {
             const res = await fetch('https://dacm-backend.onrender.com/health');
-            if (res.ok) pyStatus = 'up';
+            if (res.ok) backendStatus = 'up';
         } catch(e) {}
 
         div.innerHTML = `
-            <div style="margin:10px 0;"><i class="fas fa-circle" style="color:${goStatus === 'up' ? 'var(--success)' : 'var(--danger)'}"></i> Go Backend (:8000) - ${goStatus === 'up' ? 'Healthy' : 'Down'}</div>
-            <div style="margin:10px 0;"><i class="fas fa-circle" style="color:${pyStatus === 'up' ? 'var(--success)' : 'var(--danger)'}"></i> Python AI (:8001) - ${pyStatus === 'up' ? 'Healthy' : 'Down'}</div>
+            <div style="margin:10px 0;"><i class="fas fa-circle" style="color:${backendStatus === 'up' ? 'var(--success)' : 'var(--danger)'}"></i> AI Backend - ${backendStatus === 'up' ? 'Healthy' : 'Down'}</div>
         `;
     }
 </script>
